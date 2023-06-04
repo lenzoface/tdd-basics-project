@@ -5,12 +5,24 @@ class Stack {
   }
 
   get peek() {
-    return this.items[this.top];    
+    return this.items[this.top];
   }
 
   push(value) {
     this.top += 1;
     this.items[this.top] = value;
+  }
+
+  pop() {
+    if (this.top === -1) {
+      return null; // Return null or throw an error to indicate underflow
+    }
+
+    const value = this.items[this.top];
+    delete this.items[this.top];
+    this.top -= 1;
+
+    return value;
   }
 }
 
@@ -18,7 +30,7 @@ describe("My Stack", () => {
   let stack;
 
   beforeEach(() => {
-    const stack = new Stack();
+    stack = new Stack();
   });
 
   it("is created empty", () => {
@@ -32,5 +44,11 @@ describe("My Stack", () => {
     expect(stack.peek).toBe("🍑");
   });
 
-  it.todo("can pop off");
+  it("can pop off", () => {
+    stack.push("🍑");
+    const poppedItem = stack.pop();
+    expect(poppedItem).toBe("🍑");
+    expect(stack.top).toBe(-1);
+    expect(stack.peek).toBeUndefined();
+  });
 });
